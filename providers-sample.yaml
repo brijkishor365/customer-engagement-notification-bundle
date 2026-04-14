@@ -1,0 +1,58 @@
+
+services:
+
+    # ── Shared utility ─────────────────────────────────────────────────────────
+
+    CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver: ~
+
+    # ── SMS Providers ──────────────────────────────────────────────────────────
+
+    # --- Default HTTP provider (configure once, works with any SMS gateway) ---
+
+    # Provider config value object — one definition per gateway you want to support.
+    # Example A: JSON-based gateway (e.g. Infobip, Vonage, THSMS, any REST API)
+    cen.sms.config.default:
+        #Infobip (JSON)
+        $url:           'https://{base-url}.api.infobip.com/sms/2/text/advanced'
+        $headers:
+            Authorization: 'App %env(INFOBIP_API_KEY)%'
+            Content-Type:  'application/json'
+        $bodyTemplate:
+            messages:
+                - from: 'CEP'
+                  destinations:
+                      - to: '{to}'
+                  text: '{message}'
+        $bodyFormat:    'json'
+        $successHttpCodes: [200]
+        $successResponsePath:  'messages.0.status.groupName'
+        $successResponseValue: 'PENDING'
+
+        #    Vonage / Nexmo (form-encoded)
+#        $url:    'https://rest.nexmo.com/sms/json'
+#        $method: 'POST'
+#        $headers:
+#            Content-Type: 'application/x-www-form-urlencoded'
+#        $bodyTemplate:
+#            api_key:    '%env(VONAGE_API_KEY)%'
+#            api_secret: '%env(VONAGE_API_SECRET)%'
+#            to:         '{to}'
+#            from:       'CEP'
+#            text:       '{message}'
+#        $bodyFormat:      'form'
+#        $successHttpCodes: [200]
+#        $successResponsePath:  'messages.0.status'
+#        $successResponseValue: '0'
+
+        #    Simple Thai SMS Gateway (Bearer + JSON)
+#        $url:    'https://portal.thsmsgateway.com/api/v1/send'
+#        $method: 'POST'
+#        $headers:
+#            Authorization: 'Bearer %env(SMS_API_TOKEN)%'
+#            Content-Type:  'application/json'
+#        $bodyTemplate:
+#            msisdn:  '{to}'
+#            message: '{message}'
+#            sender:  'CEPAPP'
+#        $bodyFormat:      'json'
+#        $successHttpCodes: [200]

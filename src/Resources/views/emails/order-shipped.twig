@@ -1,0 +1,43 @@
+{# Pimcore email document at: /emails/order-shipped              #}
+{# Template file: templates/emails/order-shipped.html.twig       #}
+{# All keys from context[] are available as Twig variables        #}
+
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+
+<h2 style="color: #0070f3;">Hi {{ customerName }},</h2>
+<p>Your order <strong>#{{ orderNumber }}</strong> has been shipped!</p>
+
+<p>
+    <a href="{{ trackingUrl }}"
+       style="background:#0070f3; color:#fff; padding:12px 24px;
+                  text-decoration:none; border-radius:4px; display:inline-block;">
+        Track Your Order
+    </a>
+</p>
+
+{% if items is defined and items|length > 0 %}
+    <h3>Items in this shipment:</h3>
+    <table style="width:100%; border-collapse:collapse;">
+        <thead>
+        <tr style="background:#f5f5f5;">
+            <th style="padding:8px; text-align:left;">Item</th>
+            <th style="padding:8px; text-align:center;">Qty</th>
+            <th style="padding:8px; text-align:right;">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in items %}
+            <tr>
+                <td style="padding:8px; border-bottom:1px solid #eee;">{{ item.name }}</td>
+                <td style="padding:8px; text-align:center; border-bottom:1px solid #eee;">{{ item.qty }}</td>
+                <td style="padding:8px; text-align:right; border-bottom:1px solid #eee;">{{ item.price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+</body>
+</html>

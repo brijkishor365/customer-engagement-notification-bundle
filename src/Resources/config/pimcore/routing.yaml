@@ -1,0 +1,3 @@
+_customer_engagement_notification_bundle_api:
+    resource: "../../../Controller/"
+    type:     annotation
