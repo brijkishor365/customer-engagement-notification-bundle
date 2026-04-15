@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\Push;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\PushProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\PushProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

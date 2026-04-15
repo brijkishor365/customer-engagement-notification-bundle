@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 

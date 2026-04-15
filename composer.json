@@ -33,7 +33,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CustomerEngagementNotificationBundle\\": "src/"
+      "Qburst\\CustomerEngagementNotificationBundle\\": "src/"
     },
     "exclude-from-classmap": [
       "frontend/",
@@ -41,11 +41,19 @@
       "doc/"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Qburst\\CustomerEngagementNotificationBundle\\Tests\\": "tests/"
+    }
+  },
   "extra": {
     "pimcore": {
       "bundles": [
-        "CustomerEngagementNotificationBundle\\CustomerEngagementNotificationBundle"
+        "Qburst\\CustomerEngagementNotificationBundle\\CustomerEngagementNotificationBundle"
       ]
     }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^12.5"
   }
 }

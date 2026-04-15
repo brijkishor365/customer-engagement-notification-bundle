@@ -3,7 +3,7 @@ services:
 
     # ── Shared utility ─────────────────────────────────────────────────────────
 
-    CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver: ~
+    Qburst\CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver: ~
 
     # ── SMS Providers ──────────────────────────────────────────────────────────
 

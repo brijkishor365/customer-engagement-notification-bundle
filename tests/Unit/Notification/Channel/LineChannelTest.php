@@ -9,11 +9,12 @@
  * - Provider integration
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Channel\LineChannel;
-use CustomerEngagementNotificationBundle\Notification\Contract\LineProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\LineChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\LineProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class LineChannelTest extends TestCase
@@ -27,11 +28,8 @@ class LineChannelTest extends TestCase
         $this->channel = new LineChannel($this->mockProvider);
     }
 
-    /**
-     * @test
-     * @dataProvider validLineUserIdProvider
-     */
-    public function it_supports_valid_line_user_ids(string $userId): void
+    #[DataProvider('validLineUserIdProvider')]
+    public function test_it_supports_valid_line_user_ids(string $userId): void
     {
         $message = new NotificationMessage($userId, 'Msg', 'Body', 'line');
 
@@ -47,11 +45,8 @@ class LineChannelTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidLineUserIdProvider
-     */
-    public function it_rejects_invalid_line_user_ids(string $userId): void
+    #[DataProvider('invalidLineUserIdProvider')]
+    public function test_it_rejects_invalid_line_user_ids(string $userId): void
     {
         $message = new NotificationMessage($userId, 'Msg', 'Body', 'line');
 
@@ -72,17 +67,15 @@ class LineChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_returns_correct_channel_name(): void
+    public function test_it_returns_correct_channel_name(): void
     {
         self::assertEquals('line', $this->channel->getName());
     }
 
     /**
-     * @test
      */
-    public function it_sends_line_message_through_provider(): void
+    public function test_it_sends_line_message_through_provider(): void
     {
         $userId = 'U' . str_repeat('A', 32);
         $subject = 'Order Update';
@@ -100,9 +93,8 @@ class LineChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_line_flex_message(): void
+    public function test_it_handles_line_flex_message(): void
     {
         $userId = 'U1a2b3c4d5e6f7a2b3c4d5e6f7a2b3c4';
         $subject = 'Order Confirmed';
@@ -135,9 +127,8 @@ class LineChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_provider_failure(): void
+    public function test_it_handles_provider_failure(): void
     {
         $userId = 'U' . str_repeat('A', 32);
         $subject = 'Test';
@@ -154,9 +145,8 @@ class LineChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_supports_unicode_thai_text(): void
+    public function test_it_supports_unicode_thai_text(): void
     {
         $userId = 'U' . str_repeat('A', 32);
         $body = 'สวัสดีครับ ยินดีต้อนรับ 🌟'; // Thai text with emoji
@@ -167,9 +157,8 @@ class LineChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_validates_user_id_exact_length(): void
+    public function test_it_validates_user_id_exact_length(): void
     {
         // LINE user IDs are exactly 33 characters
         $validUserId = 'U' . str_repeat('1', 32); // U + 32 chars = 33 total

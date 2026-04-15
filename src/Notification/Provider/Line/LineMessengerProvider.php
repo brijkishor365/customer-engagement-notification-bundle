@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\Line;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Line;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\LineProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\LineProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

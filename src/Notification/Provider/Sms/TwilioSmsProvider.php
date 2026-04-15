@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\Sms;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 

@@ -9,12 +9,13 @@
  * - Provider integration
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel;
-use CustomerEngagementNotificationBundle\Notification\Contract\WhatsAppProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
-use CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\WhatsAppProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppMessage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class WhatsAppChannelTest extends TestCase
@@ -28,11 +29,8 @@ class WhatsAppChannelTest extends TestCase
         $this->channel = new WhatsAppChannel($this->mockProvider);
     }
 
-    /**
-     * @test
-     * @dataProvider validWhatsAppPhoneNumberProvider
-     */
-    public function it_supports_valid_whatsapp_phone_numbers(string $phoneNumber): void
+    #[DataProvider('validWhatsAppPhoneNumberProvider')]
+    public function test_it_supports_valid_whatsapp_phone_numbers(string $phoneNumber): void
     {
         $message = new NotificationMessage($phoneNumber, 'Test', 'WhatsApp Body', 'whatsapp');
 
@@ -54,11 +52,8 @@ class WhatsAppChannelTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidWhatsAppPhoneNumberProvider
-     */
-    public function it_rejects_invalid_whatsapp_phone_numbers(string $phoneNumber): void
+    #[DataProvider('invalidWhatsAppPhoneNumberProvider')]
+    public function test_it_rejects_invalid_whatsapp_phone_numbers(string $phoneNumber): void
     {
         $message = new NotificationMessage($phoneNumber, 'Test', 'WhatsApp Body', 'whatsapp');
 
@@ -80,17 +75,15 @@ class WhatsAppChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_returns_correct_channel_name(): void
+    public function test_it_returns_correct_channel_name(): void
     {
         self::assertEquals('whatsapp', $this->channel->getName());
     }
 
     /**
-     * @test
      */
-    public function it_sends_whatsapp_text_message_through_provider(): void
+    public function test_it_sends_whatsapp_text_message_through_provider(): void
     {
         $phoneNumber = '+66812345678';
         $subject = 'Test Message';
@@ -110,9 +103,8 @@ class WhatsAppChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_whatsapp_template_message(): void
+    public function test_it_sends_whatsapp_template_message(): void
     {
         $phoneNumber = '+66812345678';
         $subject = 'Order Shipped';
@@ -145,9 +137,8 @@ class WhatsAppChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_whatsapp_media_message(): void
+    public function test_it_sends_whatsapp_media_message(): void
     {
         $phoneNumber = '+66812345678';
         $subject = 'Receipt';
@@ -171,9 +162,8 @@ class WhatsAppChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_provider_failure(): void
+    public function test_it_handles_provider_failure(): void
     {
         $phoneNumber = '+66812345678';
         $subject = 'Test';
@@ -193,9 +183,8 @@ class WhatsAppChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_supports_unicode_in_whatsapp_messages(): void
+    public function test_it_supports_unicode_in_whatsapp_messages(): void
     {
         $phoneNumber = '+66812345678';
         $body = 'สวัสดีครับ ยินดีต้อนรับ 🌟'; // Thai text with emoji
@@ -206,9 +195,8 @@ class WhatsAppChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_validates_https_media_urls(): void
+    public function test_it_validates_https_media_urls(): void
     {
         $phoneNumber = '+66812345678';
         $context = [

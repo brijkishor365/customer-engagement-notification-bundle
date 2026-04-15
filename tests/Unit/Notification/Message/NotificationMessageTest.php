@@ -10,18 +10,16 @@
  * - DoS prevention
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Message;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Message;
 
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class NotificationMessageTest extends TestCase
 {
-    /**
-     * @test
-     * @dataProvider validMessageProvider
-     */
-    public function it_accepts_valid_messages(string $recipient, string $subject, string $body, string $channel): void
+    #[DataProvider('validMessageProvider')]
+    public function test_it_accepts_valid_messages(string $recipient, string $subject, string $body, string $channel): void
     {
         $message = new NotificationMessage($recipient, $subject, $body, $channel);
 
@@ -41,11 +39,8 @@ class NotificationMessageTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidRecipientProvider
-     */
-    public function it_rejects_invalid_recipients(string $recipient): void
+    #[DataProvider('invalidRecipientProvider')]
+    public function test_it_rejects_invalid_recipients(string $recipient): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Recipient must be non-empty');
@@ -62,9 +57,8 @@ class NotificationMessageTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_rejects_invalid_channel_names(): void
+    public function test_it_rejects_invalid_channel_names(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Channel name must be alphanumeric');
@@ -73,9 +67,8 @@ class NotificationMessageTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_rejects_oversized_body(): void
+    public function test_it_rejects_oversized_body(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Body must be non-empty and not exceed 64KB');
@@ -84,9 +77,8 @@ class NotificationMessageTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_rejects_deeply_nested_context(): void
+    public function test_it_rejects_deeply_nested_context(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Context nesting too deep (max 10 levels).');
@@ -103,7 +95,9 @@ class NotificationMessageTest extends TestCase
                                         'h' => [
                                             'i' => [
                                                 'j' => [
-                                                    'k' => 'value',
+                                                    'k' => [
+                                                        'l' => 'value',
+                                                    ],
                                                 ],
                                             ],
                                         ],
@@ -120,9 +114,8 @@ class NotificationMessageTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_rejects_oversized_context_value(): void
+    public function test_it_rejects_oversized_context_value(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Context string value too long');
@@ -133,9 +126,8 @@ class NotificationMessageTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_accepts_valid_context_with_scalars(): void
+    public function test_it_accepts_valid_context_with_scalars(): void
     {
         $context = [
             'customer_id' => 12345,

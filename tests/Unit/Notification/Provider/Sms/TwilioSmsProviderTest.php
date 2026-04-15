@@ -9,9 +9,10 @@
  * - HTTP client integration
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Provider\Sms;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Provider\Sms;
 
-use CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -33,9 +34,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_sms_successfully(): void
+    public function test_it_sends_sms_successfully(): void
     {
         $mockResponse = $this->createMock(ResponseInterface::class);
         $mockResponse->expects($this->once())
@@ -64,9 +64,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_twilio_api_error(): void
+    public function test_it_handles_twilio_api_error(): void
     {
         $mockResponse = $this->createMock(ResponseInterface::class);
         $mockResponse->expects($this->once())
@@ -86,9 +85,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_network_timeout(): void
+    public function test_it_handles_network_timeout(): void
     {
         $this->mockHttpClient->expects($this->once())
             ->method('request')
@@ -100,9 +98,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_http_client_exception(): void
+    public function test_it_handles_http_client_exception(): void
     {
         $this->mockHttpClient->expects($this->once())
             ->method('request')
@@ -114,9 +111,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_unicode_messages(): void
+    public function test_it_sends_unicode_messages(): void
     {
         $mockResponse = $this->createMock(ResponseInterface::class);
         $mockResponse->expects($this->once())
@@ -140,9 +136,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_long_messages(): void
+    public function test_it_handles_long_messages(): void
     {
         $longMessage = str_repeat('A', 160); // Exactly SMS limit
         $mockResponse = $this->createMock(ResponseInterface::class);
@@ -167,9 +162,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_constructs_with_valid_credentials(): void
+    public function test_it_constructs_with_valid_credentials(): void
     {
         $provider = new TwilioSmsProvider(
             'AC1234567890abcdef1234567890abcdef',
@@ -182,9 +176,8 @@ class TwilioSmsProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_empty_message(): void
+    public function test_it_handles_empty_message(): void
     {
         $mockResponse = $this->createMock(ResponseInterface::class);
         $mockResponse->expects($this->once())

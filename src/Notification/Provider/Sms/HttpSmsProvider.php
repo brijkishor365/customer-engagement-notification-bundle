@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\Sms;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms;
 
-use CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig;
-use CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

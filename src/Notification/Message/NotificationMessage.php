@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Message;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Message;
 
 /**
  * Immutable notification message value object.

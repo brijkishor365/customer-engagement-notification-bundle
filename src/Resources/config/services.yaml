@@ -12,59 +12,59 @@ services:
         factory: ['Symfony\Component\HttpClient\HttpClient', 'create']
 
     # Register all controllers
-    CustomerEngagementNotificationBundle\Controller\:
+    Qburst\CustomerEngagementNotificationBundle\Controller\:
         resource: '../../Controller/'
         public: true
         tags: ['controller.service_arguments']
 
     # ── Utility ────────────────────────────────────────────────────────────────
 
-    CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver: ~
+    Qburst\CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver: ~
 
     # ── Firebase Push ──────────────────────────────────────────────────────────
 
-    CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider:
         arguments:
             # env(file:VAR) reads the file at the path stored in the env var
             $serviceAccountJson: '%env(file:FIREBASE_SERVICE_ACCOUNT_PATH)%'
 
-    CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider: ~
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider: ~
 
-    CustomerEngagementNotificationBundle\Notification\Channel\PushChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\PushChannel:
         arguments:
-            $provider: '@CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider'
+            $provider: '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider'
         tags:
             - { name: cen.notification.channel }
 
     # ── LINE Messenger ─────────────────────────────────────────────────────────
 
-    CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider:
         arguments:
             $channelAccessToken: '%env(LINE_CHANNEL_ACCESS_TOKEN)%'
 
-    CustomerEngagementNotificationBundle\Notification\Channel\LineChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\LineChannel:
         arguments:
-            $provider: '@CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider'
+            $provider: '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider'
         tags:
             - { name: cen.notification.channel }
 
     # ── Pimcore Email ──────────────────────────────────────────────────────────
 
-    CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider:
         arguments:
             $fromEmail: '%env(MAILER_FROM_EMAIL)%'
             $fromName:  '%env(MAILER_FROM_NAME)%'
 
-    CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel:
         arguments:
-            $provider: '@CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider'
+            $provider: '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider'
         tags:
             - { name: cen.notification.channel }
 
     # ── SMS (existing, unchanged) ──────────────────────────────────────────────
 
     cen.sms.config.default:
-        class: CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig
+        class: Qburst\CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig
         arguments:
             $url:             '%env(SMS_API_URL)%'
             $method:          'POST'
@@ -77,38 +77,38 @@ services:
             $bodyFormat:       'json'
             $successHttpCodes: [200, 201]
 
-    CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider:
         arguments:
             $config: '@cen.sms.config.default'
 
-    CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
         arguments:
-            $provider: '@CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider'
+            $provider: '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider'
         tags:
             - { name: cen.notification.channel }
 
     # ── WhatsApp ──────────────────────────────────────────────────────────────
 
-    CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider:
         arguments:
             $phoneNumberId: '%env(WHATSAPP_PHONE_NUMBER_ID)%'
             $accessToken: '%env(WHATSAPP_ACCESS_TOKEN)%'
 
-    CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel:
         arguments:
-            $provider: '@CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider'
+            $provider: '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider'
         tags:
             - { name: cen.notification.channel }
 
     # ── Factory + Manager ──────────────────────────────────────────────────────
 
-    CustomerEngagementNotificationBundle\Notification\NotificationFactory:
+    Qburst\CustomerEngagementNotificationBundle\Notification\NotificationFactory:
         arguments:
             - '@Psr\Log\LoggerInterface'
 
-    CustomerEngagementNotificationBundle\Notification\NotificationManager:
+    Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager:
         public: true
 
     cen.notification_manager:
-        alias: CustomerEngagementNotificationBundle\Notification\NotificationManager
+        alias: Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager
         public: true

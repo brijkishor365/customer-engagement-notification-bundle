@@ -9,7 +9,7 @@ This guide demonstrates how to use the CEP Bundle for sending notifications acro
 ### Injecting the NotificationManager
 
 ```php
-use CustomerEngagementNotificationBundle\Notification\NotificationManager;
+use Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager;
 
 class YourController extends AbstractController
 {

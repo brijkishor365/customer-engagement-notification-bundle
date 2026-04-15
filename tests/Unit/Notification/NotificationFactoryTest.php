@@ -9,12 +9,13 @@
  * - Error handling for unknown channels
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification;
 
-use CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel;
-use CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel;
-use CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
-use CustomerEngagementNotificationBundle\Notification\NotificationFactory;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\NotificationFactory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -30,9 +31,8 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_creates_channel_from_container(): void
+    public function test_it_creates_channel_from_container(): void
     {
         $mockChannel = $this->createMock(NotificationChannelInterface::class);
         $mockChannel->method('getName')->willReturn('test');
@@ -47,9 +47,8 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_throws_exception_for_unknown_channel(): void
+    public function test_it_throws_exception_for_unknown_channel(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Notification channel "unknown" is not registered');
@@ -58,9 +57,8 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_returns_registered_channels(): void
+    public function test_it_returns_registered_channels(): void
     {
         $mockSmsChannel = $this->createMock(SmsChannel::class);
         $mockEmailChannel = $this->createMock(EmailChannel::class);
@@ -79,9 +77,8 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_checks_if_channel_is_supported(): void
+    public function test_it_checks_if_channel_is_supported(): void
     {
         $mockSmsChannel = $this->createMock(SmsChannel::class);
         $mockSmsChannel->method('getName')->willReturn('sms');
@@ -92,9 +89,8 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_unknown_channel_requests(): void
+    public function test_it_handles_unknown_channel_requests(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Notification channel "test" is not registered');
@@ -103,9 +99,8 @@ class NotificationFactoryTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_prevents_duplicate_channel_registration(): void
+    public function test_it_prevents_duplicate_channel_registration(): void
     {
         $firstChannel = $this->createMock(NotificationChannelInterface::class);
         $firstChannel->method('getName')->willReturn('sms');

@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Security;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Security;
 
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
 
 /**
  * Security validator for notification messages.
@@ -24,6 +24,11 @@ class MessageValidator
         'fc00::/7',       // IPv6 private
         'fe80::/10',      // IPv6 link-local
     ];
+
+    /**
+     * Rate limiting storage (in production, use Redis/cache).
+     */
+    private array $rateLimitStorage = [];
 
     /**
      * Validates a notification message for security issues.
@@ -48,6 +53,75 @@ class MessageValidator
         }
 
         return true;
+    }
+
+    /**
+     * Validates a message template for injection attacks.
+     *
+     * @param NotificationMessage $message The message to validate
+     * @return bool True if the template is safe
+     */
+    public function validateTemplate(NotificationMessage $message): bool
+    {
+        return !$this->containsTemplateInjection($message->getBody()) &&
+               !$this->containsTemplateInjection($message->getSubject());
+    }
+
+    /**
+     * Sanitizes context data for logging by masking sensitive information.
+     *
+     * @param array $context The context data to sanitize
+     * @return array The sanitized context data
+     */
+    public function sanitizeForLogging(array $context): array
+    {
+        $sanitized = [];
+        $sensitiveKeys = ['api_key', 'apikey', 'password', 'passwd', 'token', 'secret', 'key'];
+
+        foreach ($context as $key => $value) {
+            if (is_array($value)) {
+                $sanitized[$key] = $this->sanitizeForLogging($value);
+            } elseif (in_array(strtolower($key), $sensitiveKeys, true)) {
+                $sanitized[$key] = '***';
+            } else {
+                $sanitized[$key] = $value;
+            }
+        }
+
+        return $sanitized;
+    }
+
+    /**
+     * Checks if a recipient is within rate limits for a channel.
+     *
+     * @param string $recipient The recipient identifier
+     * @param string $channel The notification channel
+     * @return bool True if within rate limits
+     */
+    public function checkRateLimit(string $recipient, string $channel): bool
+    {
+        $key = $recipient . ':' . $channel;
+        $now = time();
+        $window = 3600; // 1 hour window
+        $limit = 5; // 5 messages per hour per recipient per channel
+
+        if (!isset($this->rateLimitStorage[$key])) {
+            $this->rateLimitStorage[$key] = [];
+        }
+
+        // Remove old entries outside the window
+        $this->rateLimitStorage[$key] = array_filter(
+            $this->rateLimitStorage[$key],
+            fn($timestamp) => $timestamp > ($now - $window)
+        );
+
+        // Check if under limit
+        if (count($this->rateLimitStorage[$key]) < $limit) {
+            $this->rateLimitStorage[$key][] = $now;
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -177,6 +251,150 @@ class MessageValidator
     }
 
     /**
+     * Sanitizes input data to prevent XSS and other injection attacks.
+     *
+     * @param array $data The input data to sanitize
+     * @return array The sanitized data
+     */
+    public function sanitizeInput(array $data): array
+    {
+        $sanitized = [];
+
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $sanitized[$key] = $this->sanitizeInput($value);
+            } elseif (is_string($value)) {
+                // Remove script tags and their content
+                $sanitized[$key] = preg_replace('/<script[^>]*>.*?<\/script>/is', '', $value);
+                // For message fields, allow basic HTML, for others strip all tags
+                if (strtolower($key) === 'message') {
+                    // Allow basic formatting tags
+                    $allowedTags = '<b><i><u><strong><em>';
+                    $sanitized[$key] = strip_tags($sanitized[$key], $allowedTags);
+                } else {
+                    $sanitized[$key] = strip_tags($sanitized[$key]);
+                }
+                // Remove null bytes
+                $sanitized[$key] = str_replace("\0", '', $sanitized[$key]);
+            } else {
+                $sanitized[$key] = $value;
+            }
+        }
+
+        return $sanitized;
+    }
+
+    /**
+     * Validates message size limits for different channels.
+     *
+     * @param NotificationMessage $message The message to validate
+     * @param string $channel The channel (optional, uses message channel if not provided)
+     * @return bool True if within size limits
+     */
+    public function validateMessageSize(NotificationMessage $message, string $channel = ''): bool
+    {
+        $channel = $channel ?: $message->getChannel();
+        $body = $message->getBody();
+
+        return match ($channel) {
+            'sms' => strlen($body) <= 160,
+            'email' => strlen($body) <= 100000, // 100KB reasonable limit
+            'push' => strlen($body) <= 4000,     // FCM limit
+            'line' => strlen($body) <= 2000,     // LINE limit
+            'whatsapp' => strlen($body) <= 4096, // WhatsApp limit
+            default => strlen($body) <= 10000,   // Default limit
+        };
+    }
+
+    /**
+     * Detects suspicious content patterns that may indicate spam or phishing.
+     *
+     * @param NotificationMessage $message The message to check
+     * @return bool True if suspicious content is detected
+     */
+    public function detectSuspiciousContent(NotificationMessage $message): bool
+    {
+        $content = $message->getBody() . ' ' . $message->getSubject();
+        $suspiciousPatterns = [
+            '/urgent|immediate|action required/i',
+            '/account.*suspend|account.*block/i',
+            '/verify.*account|confirm.*identity/i',
+            '/click.*here|visit.*link/i',
+            '/win.*prize|won.*lottery|you.*won|you.*win/i',
+            '/free.*money|cash.*prize/i',
+            '/bank.*account|credit.*card/i',
+            '/password.*reset|change.*password/i',
+            '/send.*details|provide.*information/i',
+            '/pay.*\$|payment.*required|release.*pay/i',
+            '/http:\/\/|https:\/\/[^\s]*\.(exe|zip|rar|bat|cmd|scr)/i', // Suspicious file extensions
+        ];
+
+        foreach ($suspiciousPatterns as $pattern) {
+            if (preg_match($pattern, $content)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Validates recipient format for different channels.
+     *
+     * @param NotificationMessage $message The message to validate
+     * @return bool True if recipient format is valid
+     */
+    public function validateRecipient(NotificationMessage $message): bool
+    {
+        $recipient = $message->getRecipient();
+        $channel = $message->getChannel();
+
+        return match ($channel) {
+            'sms' => $this->isValidPhoneNumber($recipient),
+            'email' => $this->isValidEmail($recipient),
+            'push' => $this->isValidPushToken($recipient),
+            'line' => $this->isValidLineUserId($recipient),
+            'whatsapp' => $this->isValidPhoneNumber($recipient),
+            default => false,
+        };
+    }
+
+    /**
+     * Validates phone number format.
+     */
+    private function isValidPhoneNumber(string $phone): bool
+    {
+        // Basic phone validation: starts with +, followed by digits, optional spaces/dashes
+        return preg_match('/^\+[1-9]\d{1,14}$/', preg_replace('/[\s\-\(\)]/', '', $phone));
+    }
+
+    /**
+     * Validates email format.
+     */
+    private function isValidEmail(string $email): bool
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+    }
+
+    /**
+     * Validates push notification token format.
+     */
+    private function isValidPushToken(string $token): bool
+    {
+        // Firebase tokens are typically 152-256 characters, alphanumeric with some special chars
+        return preg_match('/^[a-zA-Z0-9_\-\.]{50,300}$/', $token);
+    }
+
+    /**
+     * Validates LINE user ID format.
+     */
+    private function isValidLineUserId(string $userId): bool
+    {
+        // LINE user IDs start with U and are followed by 32 hex characters
+        return preg_match('/^U[a-f0-9]{32}$/i', $userId);
+    }
+
+    /**
      * Checks for template injection patterns.
      *
      * @param string $content The content to check
@@ -184,18 +402,50 @@ class MessageValidator
      */
     private function containsTemplateInjection(string $content): bool
     {
-        // Check for common template injection patterns
-        $patterns = [
-            '/\{\{.*?\}\}/',     // Twig-style variables
+        // Check for dangerous patterns that should always be blocked
+        $dangerousPatterns = [
             '/\{\%.*\%\}/',      // Twig blocks
             '/<\?php/i',         // PHP code
             '/<%.*?%>/',         // ASP/JSP style
             '/\$\{.*?\}/',       // EL expressions
+            '/<script/i',        // Script tags
+            '/\.\./',            // Path traversal (..)
+            '/etc\/passwd/i',    // Common path traversal target
+            '/on\w+\s*=/i',      // Event handlers like onerror=
+            '/javascript:/i',    // JavaScript URLs
+            '/\';\s*DROP/i',     // SQL injection patterns
         ];
 
-        foreach ($patterns as $pattern) {
+        foreach ($dangerousPatterns as $pattern) {
             if (preg_match($pattern, $content)) {
                 return true;
+            }
+        }
+
+        // Check Twig variables - allow safe ones, block dangerous ones
+        if (preg_match_all('/\{\{([^}]+)\}\}/', $content, $matches)) {
+            foreach ($matches[1] as $expression) {
+                // Block dangerous Twig expressions
+                $dangerousTwig = [
+                    '/_self/i',
+                    '/env/i',
+                    '/registerUndefinedFilterCallback/i',
+                    '/exec/i',
+                    '/\*+/',    // Multiplication
+                    '/\++/',    // Addition (multiple +)
+                    '/\-+/',    // Subtraction (multiple -)
+                    '/\/+/',    // Division
+                    '/\%+/',    // Modulo
+                ];
+                foreach ($dangerousTwig as $pattern) {
+                    if (preg_match($pattern, $expression)) {
+                        return true;
+                    }
+                }
+                // Allow simple variables and basic filters
+                if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*(\|[a-zA-Z_][a-zA-Z0-9_]*)*$/', trim($expression))) {
+                    return true; // Block complex expressions
+                }
             }
         }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Contract;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Contract;
 
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
 
 interface NotificationChannelInterface
 {

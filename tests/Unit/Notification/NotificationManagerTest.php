@@ -9,12 +9,13 @@
  * - Channel validation
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
-use CustomerEngagementNotificationBundle\Notification\NotificationFactory;
-use CustomerEngagementNotificationBundle\Notification\NotificationManager;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\NotificationFactory;
+use Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -32,9 +33,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_message_through_correct_channel(): void
+    public function test_it_sends_message_through_correct_channel(): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'sms');
         $mockChannel = $this->createMock(NotificationChannelInterface::class);
@@ -64,9 +64,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_channel_not_supporting_message(): void
+    public function test_it_handles_channel_not_supporting_message(): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'sms');
         $mockChannel = $this->createMock(NotificationChannelInterface::class);
@@ -91,9 +90,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_channel_send_failure(): void
+    public function test_it_handles_channel_send_failure(): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'sms');
         $mockChannel = $this->createMock(NotificationChannelInterface::class);
@@ -123,9 +121,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_unknown_channel(): void
+    public function test_it_handles_unknown_channel(): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'unknown');
 
@@ -144,9 +141,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_broadcasts_to_multiple_channels(): void
+    public function test_it_broadcasts_to_multiple_channels(): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'sms');
         $channels = ['sms', 'email'];
@@ -206,9 +202,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_broadcast_with_unsupported_channels(): void
+    public function test_it_handles_broadcast_with_unsupported_channels(): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'sms');
         $channels = ['sms', 'unknown'];
@@ -251,9 +246,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_logs_successful_notifications(): void
+    public function test_it_logs_successful_notifications(): void
     {
         $message = new NotificationMessage('+66812345678', 'Test', 'Body', 'sms');
         $mockChannel = $this->createMock(NotificationChannelInterface::class);
@@ -281,9 +275,8 @@ class NotificationManagerTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_logs_failed_notifications(): void
+    public function test_it_logs_failed_notifications(): void
     {
         $message = new NotificationMessage('user@example.com', 'Test', 'Body', 'email');
         $mockChannel = $this->createMock(NotificationChannelInterface::class);

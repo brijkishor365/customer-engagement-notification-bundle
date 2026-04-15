@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp;
 
 /**
  * Typed value object representing a WhatsApp message payload.

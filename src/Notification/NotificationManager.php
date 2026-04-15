@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification;
 
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
 use Psr\Log\LoggerInterface;
 
 /**

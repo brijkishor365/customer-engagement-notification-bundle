@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\Email;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\EmailProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\EmailProviderInterface;
 use Pimcore\Mail;
 use Pimcore\Model\Document\Email as EmailDocument;
 use Psr\Log\LoggerInterface;

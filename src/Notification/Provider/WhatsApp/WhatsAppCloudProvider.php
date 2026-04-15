@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\WhatsAppProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\WhatsAppProviderInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

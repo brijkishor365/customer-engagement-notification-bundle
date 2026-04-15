@@ -33,23 +33,23 @@ WHATSAPP_ACCESS_TOKEN=EAAxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 The bundle uses autowiring and automatic service discovery. No manual service configuration is required in `services.yaml`. The following services are automatically registered:
 
 ### Core Services
-- `CustomerEngagementNotificationBundle\Notification\NotificationManager` - Main notification orchestrator
-- `CustomerEngagementNotificationBundle\Notification\NotificationFactory` - Channel factory with tagged iterator injection
+- `Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager` - Main notification orchestrator
+- `Qburst\CustomerEngagementNotificationBundle\Notification\NotificationFactory` - Channel factory with tagged iterator injection
 
 ### Channel Services (automatically tagged)
-- `CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel` - SMS notifications
-- `CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel` - Email notifications
-- `CustomerEngagementNotificationBundle\Notification\Channel\PushChannel` - Firebase push notifications
-- `CustomerEngagementNotificationBundle\Notification\Channel\LineChannel` - LINE messaging
-- `CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel` - WhatsApp messaging
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel` - SMS notifications
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel` - Email notifications
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Channel\PushChannel` - Firebase push notifications
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Channel\LineChannel` - LINE messaging
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel` - WhatsApp messaging
 
 ### Provider Services
-- `CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider` - Generic HTTP SMS
-- `CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider` - Pimcore Email Document provider
-- `CustomerEngagementNotificationBundle\Notification\Provider\Email\SmtpEmailProvider` - SMTP email via Symfony Mailer
-- `CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider` - Firebase push
-- `CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider` - LINE API
-- `CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider` - WhatsApp API
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider` - Generic HTTP SMS
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider` - Pimcore Email Document provider
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\SmtpEmailProvider` - SMTP email via Symfony Mailer
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider` - Firebase push
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider` - LINE API
+- `Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider` - WhatsApp API
 
 ## Manual Configuration (Optional)
 
@@ -58,12 +58,12 @@ If you need to customize the default configuration, you can override services in
 ```yaml
 services:
     # Example: Custom SMS provider configuration
-    CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider:
         arguments:
             $config: '@your.custom.sms.config'
 
     # Example: Custom email provider
-    CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider:
         arguments:
             $fromEmail: '%env(CUSTOM_MAILER_FROM_EMAIL)%'
             $fromName: '%env(CUSTOM_MAILER_FROM_NAME)%'
@@ -76,7 +76,7 @@ Ensure the bundle is registered in `config/bundles.php`:
 ```php
 return [
     // ... other bundles
-    CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle::class => ['all' => true],
+    Qburst\CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle::class => ['all' => true],
 ];
 ```
 
@@ -93,33 +93,33 @@ Available endpoints:
 - `POST /api/notify/line/flex` - Send LINE flex message
 - `POST /api/notify/whatsapp/template` - Send WhatsApp template
 - And more...
-    CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider'  # or your preferred SMS provider
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider'  # or your preferred SMS provider
         tags:
             - { name: cen.notification.channel, channel: sms }
 
-    CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider'
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider'
         tags:
             - { name: cen.notification.channel, channel: email }
 
-    CustomerEngagementNotificationBundle\Notification\Channel\PushChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\PushChannel:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider'
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider'
         tags:
             - { name: cen.notification.channel, channel: push }
 
-    CustomerEngagementNotificationBundle\Notification\Channel\LineChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\LineChannel:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider'
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider'
         tags:
             - { name: cen.notification.channel, channel: line }
 
-    CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider'
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider'
         tags:
             - { name: cen.notification.channel, channel: whatsapp }
 ```
@@ -130,16 +130,16 @@ Available endpoints:
 
 ```yaml
 services:
-    CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider:
         arguments:
             - '@Symfony\Contracts\HttpClient\HttpClientInterface'
             - '@cache.app'  # or your preferred cache service
             - '@logger'
             - '%env(FIREBASE_SERVICE_ACCOUNT_JSON)%'
 
-    CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider'
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider'
             - '@Symfony\Contracts\HttpClient\HttpClientInterface'
 ```
 
@@ -147,7 +147,7 @@ services:
 
 ```yaml
 services:
-    CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider:
         arguments:
             - '%env(TWILIO_ACCOUNT_SID)%'
             - '%env(TWILIO_AUTH_TOKEN)%'
@@ -159,7 +159,7 @@ services:
 
 ```yaml
 services:
-    CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider:
         arguments:
             - '%env(LINE_CHANNEL_ACCESS_TOKEN)%'
             - '@Symfony\Contracts\HttpClient\HttpClientInterface'
@@ -169,7 +169,7 @@ services:
 
 ```yaml
 services:
-    CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider:
         arguments:
             - '%env(WHATSAPP_ACCESS_TOKEN)%'
             - '%env(WHATSAPP_PHONE_NUMBER_ID)%'
@@ -180,16 +180,16 @@ services:
 
 ```yaml
 services:
-    CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig:
         arguments:
             - '%env(HTTP_SMS_API_URL)%'
             - '%env(HTTP_SMS_API_KEY)%'
             # Add other config as needed
 
-    CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig'
-            - '@CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver'
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Config\HttpSmsProviderConfig'
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Resolver\BodyTemplateResolver'
             - '@Symfony\Contracts\HttpClient\HttpClientInterface'
 ```
 
@@ -197,7 +197,7 @@ services:
 
 ```yaml
 services:
-    CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider:
         arguments:
             - '@pimcore.mail'  # Pimcore's mail service
 ```
@@ -206,7 +206,7 @@ services:
 
 ```yaml
 services:
-    CustomerEngagementNotificationBundle\Notification\Provider\Email\SmtpEmailProvider:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\SmtpEmailProvider:
         arguments:
             - '@Symfony\Component\Mailer\MailerInterface'
             - '%env(MAILER_FROM_EMAIL)%'
@@ -221,7 +221,7 @@ Ensure the bundle is registered in `config/bundles.php`:
 ```php
 return [
     // ... other bundles
-    CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle::class => ['all' => true],
+    Qburst\CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle::class => ['all' => true],
 ];
 ```
 
@@ -245,7 +245,7 @@ services:
 Implement the appropriate provider interface:
 
 ```php
-use CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
 
 class CustomSmsProvider implements SmsProviderInterface
 {

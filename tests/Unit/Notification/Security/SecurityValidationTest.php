@@ -10,10 +10,11 @@
  * - Input sanitization
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Security;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Security;
 
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
-use CustomerEngagementNotificationBundle\Notification\Security\MessageValidator;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Security\MessageValidator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class SecurityValidationTest extends TestCase
@@ -25,11 +26,8 @@ class SecurityValidationTest extends TestCase
         $this->validator = new MessageValidator();
     }
 
-    /**
-     * @test
-     * @dataProvider ssrfProtectionDataProvider
-     */
-    public function it_prevents_ssrf_attacks_in_urls(string $url, bool $expectedValid): void
+    #[DataProvider('ssrfProtectionDataProvider')]
+    public function test_it_prevents_ssrf_attacks_in_urls(string $url, bool $expectedValid): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'email');
 
@@ -45,7 +43,7 @@ class SecurityValidationTest extends TestCase
         }
     }
 
-    public function ssrfProtectionDataProvider(): array
+    public static function ssrfProtectionDataProvider(): array
     {
         return [
             'valid_https_url' => ['https://api.example.com/webhook', true],
@@ -65,11 +63,8 @@ class SecurityValidationTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider templateInjectionDataProvider
-     */
-    public function it_prevents_template_injection(string $template, bool $expectedValid): void
+    #[DataProvider('templateInjectionDataProvider')]
+    public function test_it_prevents_template_injection(string $template, bool $expectedValid): void
     {
         $message = new NotificationMessage('recipient', 'Subject', $template, 'email');
 
@@ -82,7 +77,7 @@ class SecurityValidationTest extends TestCase
         }
     }
 
-    public function templateInjectionDataProvider(): array
+    public static function templateInjectionDataProvider(): array
     {
         return [
             'safe_template' => ['Hello {{name}}, welcome!', true],
@@ -99,9 +94,8 @@ class SecurityValidationTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_masks_credentials_in_log_messages(): void
+    public function test_it_masks_credentials_in_log_messages(): void
     {
         $message = new NotificationMessage('recipient', 'Subject', 'Body', 'email');
         $message->setContext([
@@ -120,9 +114,8 @@ class SecurityValidationTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_validates_rate_limiting_rules(): void
+    public function test_it_validates_rate_limiting_rules(): void
     {
         $recipient = '+66812345678';
 
@@ -138,9 +131,8 @@ class SecurityValidationTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sanitizes_input_data(): void
+    public function test_it_sanitizes_input_data(): void
     {
         $dirtyData = [
             'name' => 'John<script>alert("xss")</script>Doe',
@@ -160,9 +152,8 @@ class SecurityValidationTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_validates_message_size_limits(): void
+    public function test_it_validates_message_size_limits(): void
     {
         // Test SMS length limit (160 chars)
         $longSms = str_repeat('A', 161);
@@ -187,9 +178,8 @@ class SecurityValidationTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_detects_suspicious_patterns(): void
+    public function test_it_detects_suspicious_patterns(): void
     {
         $suspiciousMessages = [
             'URGENT: Your account has been compromised! Click here: http://fake-bank.com/login',
@@ -218,9 +208,8 @@ class SecurityValidationTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_validates_recipient_format(): void
+    public function test_it_validates_recipient_format(): void
     {
         $validRecipients = [
             ['+66812345678', 'sms'],

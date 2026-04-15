@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\DependencyInjection;
+namespace Qburst\CustomerEngagementNotificationBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,7 +24,7 @@ class CustomerEngagementNotificationExtension extends Extension
     {
         // Auto-tag all classes implementing NotificationChannelInterface
         $container->registerForAutoconfiguration(
-            \CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface::class
+            \Qburst\CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface::class
         )->addTag('cen.notification.channel');
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));

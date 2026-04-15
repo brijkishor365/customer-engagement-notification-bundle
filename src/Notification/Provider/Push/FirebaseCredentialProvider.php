@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Provider\Push;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;

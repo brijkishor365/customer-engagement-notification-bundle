@@ -9,11 +9,12 @@
  * - RFC 5321 compliance
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel;
-use CustomerEngagementNotificationBundle\Notification\Contract\EmailProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\EmailProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class EmailChannelTest extends TestCase
@@ -27,11 +28,8 @@ class EmailChannelTest extends TestCase
         $this->channel = new EmailChannel($this->mockProvider);
     }
 
-    /**
-     * @test
-     * @dataProvider validEmailProvider
-     */
-    public function it_supports_valid_email_addresses(string $email): void
+    #[DataProvider('validEmailProvider')]
+    public function test_it_supports_valid_email_addresses(string $email): void
     {
         $message = new NotificationMessage($email, 'Subject', 'Body', 'email');
 
@@ -50,11 +48,8 @@ class EmailChannelTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidEmailProvider
-     */
-    public function it_rejects_invalid_email_addresses(string $email): void
+    #[DataProvider('invalidEmailProvider')]
+    public function test_it_rejects_invalid_email_addresses(string $email): void
     {
         $message = new NotificationMessage($email, 'Subject', 'Body', 'email');
 
@@ -75,18 +70,12 @@ class EmailChannelTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
-    public function it_returns_correct_channel_name(): void
+    public function test_it_returns_correct_channel_name(): void
     {
         self::assertEquals('email', $this->channel->getName());
     }
 
-    /**
-     * @test
-     */
-    public function it_sends_email_through_provider(): void
+    public function test_it_sends_email_through_provider(): void
     {
         $email = 'user@example.com';
         $subject = 'Test Subject';
@@ -103,10 +92,7 @@ class EmailChannelTest extends TestCase
         self::assertTrue($this->channel->send($message));
     }
 
-    /**
-     * @test
-     */
-    public function it_handles_document_path_from_context(): void
+    public function test_it_handles_document_path_from_context(): void
     {
         $email = 'user@example.com';
         $documentPath = '/emails/welcome';

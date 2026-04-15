@@ -13,7 +13,7 @@ This guide helps you diagnose and resolve common issues with the CEP Bundle noti
 php bin/console pimcore:bundle:list
 
 # Should show:
-# CustomerEngagementNotificationBundle (CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle) - installed, active
+# CustomerEngagementNotificationBundle (Qburst\CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle) - installed, active
 ```
 
 ### Test Basic Functionality
@@ -63,7 +63,7 @@ services:
 
 **Symptoms:**
 ```
-CustomerEngagementNotificationBundle\Notification\Exception\NotificationException:
+Qburst\CustomerEngagementNotificationBundle\Notification\Exception\NotificationException:
 Channel 'custom' is not supported
 ```
 
@@ -73,7 +73,7 @@ Channel 'custom' is not supported
 ```yaml
 # Ensure channel is properly tagged
 services:
-    CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
         tags:
             - { name: cen.notification.channel, channel: sms }
 ```
@@ -312,7 +312,7 @@ framework:
 # Use async processing for bulk notifications
 services:
     cen.notification.async_manager:
-        class: CustomerEngagementNotificationBundle\Notification\AsyncNotificationManager
+        class: Qburst\CustomerEngagementNotificationBundle\Notification\AsyncNotificationManager
         arguments: ['@messenger.default_bus']
 ```
 
@@ -365,7 +365,7 @@ $channel = $this->notificationFactory->createChannel('sms');
 var_dump($channel); // Should return SmsChannel instance
 
 // Test provider directly
-$provider = $this->container->get(CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider::class);
+$provider = $this->container->get(Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider::class);
 $success = $provider->sendSms('+66812345678', 'Test');
 var_dump($success);
 ```
@@ -400,9 +400,9 @@ curl -X POST "https://fcm.googleapis.com/v1/projects/$PROJECT_ID/messages:send" 
 ```yaml
 # Configure backup SMS provider
 services:
-    CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
         arguments:
-            - '@CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider'  # Backup
+            - '@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider'  # Backup
 ```
 
 3. **Implement circuit breaker:**

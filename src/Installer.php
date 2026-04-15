@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license    http://www.pimcore.org/license     GPLv3 and PCL
  */
 
-namespace CustomerEngagementNotificationBundle;
+namespace Qburst\CustomerEngagementNotificationBundle;
 
 use Exception;
 use Pimcore\Db;

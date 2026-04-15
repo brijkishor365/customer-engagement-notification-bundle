@@ -9,11 +9,12 @@
  * - Provider integration
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel;
-use CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class SmsChannelTest extends TestCase
@@ -27,11 +28,8 @@ class SmsChannelTest extends TestCase
         $this->channel = new SmsChannel($this->mockProvider);
     }
 
-    /**
-     * @test
-     * @dataProvider validPhoneNumberProvider
-     */
-    public function it_supports_valid_e164_phone_numbers(string $phoneNumber): void
+    #[DataProvider('validPhoneNumberProvider')]
+    public function test_it_supports_valid_e164_phone_numbers(string $phoneNumber): void
     {
         $message = new NotificationMessage($phoneNumber, 'Test', 'SMS Body', 'sms');
 
@@ -53,11 +51,8 @@ class SmsChannelTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidPhoneNumberProvider
-     */
-    public function it_rejects_invalid_phone_numbers(string $phoneNumber): void
+    #[DataProvider('invalidPhoneNumberProvider')]
+    public function test_it_rejects_invalid_phone_numbers(string $phoneNumber): void
     {
         $message = new NotificationMessage($phoneNumber, 'Test', 'SMS Body', 'sms');
 
@@ -79,17 +74,15 @@ class SmsChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_returns_correct_channel_name(): void
+    public function test_it_returns_correct_channel_name(): void
     {
         self::assertEquals('sms', $this->channel->getName());
     }
 
     /**
-     * @test
      */
-    public function it_sends_sms_through_provider(): void
+    public function test_it_sends_sms_through_provider(): void
     {
         $phoneNumber = '+66812345678';
         $message = 'Test SMS message';
@@ -105,9 +98,8 @@ class SmsChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_provider_failure(): void
+    public function test_it_handles_provider_failure(): void
     {
         $phoneNumber = '+66812345678';
         $message = 'Test SMS message';
@@ -123,9 +115,8 @@ class SmsChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_validates_message_length_for_sms(): void
+    public function test_it_validates_message_length_for_sms(): void
     {
         // SMS should support up to 160 GSM characters or 70 Unicode
         $longMessage = str_repeat('A', 160);
@@ -135,9 +126,8 @@ class SmsChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_unicode_characters_in_sms(): void
+    public function test_it_handles_unicode_characters_in_sms(): void
     {
         $unicodeMessage = 'สวัสดีครับ 🌟'; // Thai text with emoji
         $message = new NotificationMessage('+66812345678', 'Subject', $unicodeMessage, 'sms');

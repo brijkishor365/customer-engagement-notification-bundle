@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Contract;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Contract;
 
 interface SmsProviderInterface
 {

@@ -108,11 +108,11 @@ Tests for:
 ```php
 <?php
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel;
-use CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
 use PHPUnit\Framework\TestCase;
 
 class SmsChannelTest extends TestCase

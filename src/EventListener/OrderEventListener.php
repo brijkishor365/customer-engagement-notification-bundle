@@ -1,9 +1,9 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\EventListener;
+namespace Qburst\CustomerEngagementNotificationBundle\EventListener;
 
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
-use CustomerEngagementNotificationBundle\Notification\NotificationManager;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager;
 use Pimcore\Event\Model\DataObjectEvent;
 
 class OrderEventListener

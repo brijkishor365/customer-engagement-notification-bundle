@@ -1,11 +1,11 @@
-# CEP Bundle for Pimcore
+# Customer Engagement Notification Bundle for Pimcore
 
-[![Latest Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/your-org/cep-bundle)
+[![Latest Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/qburst/customer-engagement-notification-bundle)
 [![PHP Version](https://img.shields.io/badge/php-8.1+-8892BF.svg)](https://php.net/)
 [![Symfony Version](https://img.shields.io/badge/symfony-6.0+-black.svg)](https://symfony.com/)
 [![Pimcore Version](https://img.shields.io/badge/pimcore-11.0+-red.svg)](https://pimcore.com/)
 
-The **CEP Bundle** (Communication and Engagement Notification) is a comprehensive multi-channel notification system for Pimcore applications. Send notifications via SMS, Email, Push Notifications, LINE messaging, and WhatsApp through a unified API.
+The **Customer Engagement Notification Bundle** is a comprehensive multi-channel notification system for Pimcore applications. Send notifications via SMS, Email, Push Notifications, LINE messaging, and WhatsApp through a unified API.
 
 ## Features
 
@@ -32,7 +32,7 @@ Add to `config/bundles.php`:
 ```php
 return [
     // ... other bundles
-    CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle::class => ['all' => true],
+    Qburst\CustomerEngagementNotificationBundle\CustomerEngagementNotificationBundle::class => ['all' => true],
 ];
 ```
 
@@ -101,36 +101,36 @@ services:
     Symfony\Contracts\HttpClient\HttpClientInterface: '@pimcore.http_client'
 
     # Core notification services
-    CustomerEngagementNotificationBundle\Notification\NotificationManager: ~
-    CustomerEngagementNotificationBundle\Notification\NotificationFactory: ~
+    Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager: ~
+    Qburst\CustomerEngagementNotificationBundle\Notification\NotificationFactory: ~
 
     # Channel implementations
-    CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
-        arguments: ['@CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider']
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\SmsChannel:
+        arguments: ['@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider']
         tags: [{ name: cen.notification.channel, channel: sms }]
 
-    CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel:
-        arguments: ['@CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider']
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\EmailChannel:
+        arguments: ['@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Email\PimcoreEmailProvider']
         tags: [{ name: cen.notification.channel, channel: email }]
 
-    CustomerEngagementNotificationBundle\Notification\Channel\PushChannel:
-        arguments: ['@CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider']
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\PushChannel:
+        arguments: ['@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider']
         tags: [{ name: cen.notification.channel, channel: push }]
 
-    CustomerEngagementNotificationBundle\Notification\Channel\LineChannel:
-        arguments: ['@CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider']
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\LineChannel:
+        arguments: ['@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Line\LineMessengerProvider']
         tags: [{ name: cen.notification.channel, channel: line }]
 
-    CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel:
-        arguments: ['@CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider']
+    Qburst\CustomerEngagementNotificationBundle\Notification\Channel\WhatsAppChannel:
+        arguments: ['@Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppCloudProvider']
         tags: [{ name: cen.notification.channel, channel: whatsapp }]
 ```
 
 ### 5. Send Your First Notification
 
 ```php
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
-use CustomerEngagementNotificationBundle\Notification\NotificationManager;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\NotificationManager;
 
 class NotificationController extends AbstractController
 {

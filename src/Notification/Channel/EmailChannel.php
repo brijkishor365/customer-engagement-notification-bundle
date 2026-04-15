@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\EmailProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\EmailProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
 
 /**
  * Email notification channel implementation.

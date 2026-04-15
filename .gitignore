@@ -1,0 +1,85 @@
+# Dependencies
+/vendor/
+composer.lock
+
+# Testing
+/phpunit.result.cache
+/.phpunit.result.cache
+
+# IDEs
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+/var/log/
+/logs/
+
+# Cache
+/var/cache/
+/cache/
+
+# Sessions
+/var/sessions/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+/tmp/
+/temp/
+
+# Build artifacts
+/build/
+/dist/
+
+# Node.js (if any frontend assets)
+/node_modules/
+/npm-debug.log*
+/yarn-error.log*
+
+# Coverage reports
+/coverage/
+/clover.xml
+/coverage.xml
+
+# Documentation build
+/docs/_build/
+
+# Symfony specific
+/app/config/parameters.yml
+/web/bundles/
+/web/uploads/
+/web/css/
+/web/js/
+
+# Pimcore specific
+/var/config/
+/var/tmp/
+/var/classes/
+/var/fieldcollections/
+/var/objectbricks/
+/var/versions/
+/var/recyclebin/
+/var/admin/
+/var/backup/
+/var/system/
+/var/email/
+/var/assets/
+/var/tmp/
+/var/queue/
+/var/search/
+
+# Test databases
+/var/tests/
+
+# Migration backups
+/var/migration-backups/

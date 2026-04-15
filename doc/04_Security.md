@@ -289,11 +289,11 @@ $this->auditLogger->log('notification_sent', [
 # Multiple provider instances for high availability
 services:
     cen.sms.provider.primary:
-        class: CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider
+        class: Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\TwilioSmsProvider
         arguments: ['%twilio_sid%', '%twilio_token%', '%twilio_number%']
 
     cen.sms.provider.backup:
-        class: CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider
+        class: Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Sms\HttpSmsProvider
         arguments: ['@cen.http_sms_config']
 ```
 

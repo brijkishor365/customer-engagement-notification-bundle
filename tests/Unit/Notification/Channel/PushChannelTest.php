@@ -9,11 +9,12 @@
  * - Provider integration
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Channel\PushChannel;
-use CustomerEngagementNotificationBundle\Notification\Contract\PushProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Channel\PushChannel;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\PushProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class PushChannelTest extends TestCase
@@ -27,11 +28,8 @@ class PushChannelTest extends TestCase
         $this->channel = new PushChannel($this->mockProvider);
     }
 
-    /**
-     * @test
-     * @dataProvider validPushRecipientProvider
-     */
-    public function it_supports_valid_push_recipients(string $recipient): void
+    #[DataProvider('validPushRecipientProvider')]
+    public function test_it_supports_valid_push_recipients(string $recipient): void
     {
         $message = new NotificationMessage($recipient, 'Title', 'Body', 'push');
 
@@ -49,11 +47,8 @@ class PushChannelTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     * @dataProvider invalidPushRecipientProvider
-     */
-    public function it_rejects_invalid_push_recipients(string $recipient): void
+    #[DataProvider('invalidPushRecipientProvider')]
+    public function test_it_rejects_invalid_push_recipients(string $recipient): void
     {
         $message = new NotificationMessage($recipient, 'Title', 'Body', 'push');
 
@@ -74,17 +69,15 @@ class PushChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_returns_correct_channel_name(): void
+    public function test_it_returns_correct_channel_name(): void
     {
         self::assertEquals('push', $this->channel->getName());
     }
 
     /**
-     * @test
      */
-    public function it_sends_push_notification_through_provider(): void
+    public function test_it_sends_push_notification_through_provider(): void
     {
         $token = str_repeat('A', 152);
         $title = 'Test Notification';
@@ -102,9 +95,8 @@ class PushChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_topic_broadcast_through_provider(): void
+    public function test_it_sends_topic_broadcast_through_provider(): void
     {
         $topic = '/topics/flash_sale';
         $title = 'Flash Sale!';
@@ -122,9 +114,8 @@ class PushChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_provider_failure(): void
+    public function test_it_handles_provider_failure(): void
     {
         $token = str_repeat('A', 152);
         $title = 'Test Notification';
@@ -141,9 +132,8 @@ class PushChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_validates_fcm_token_length(): void
+    public function test_it_validates_fcm_token_length(): void
     {
         // FCM tokens are typically 152 characters
         $validToken = str_repeat('A', 152);
@@ -153,9 +143,8 @@ class PushChannelTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_supports_unicode_in_push_notifications(): void
+    public function test_it_supports_unicode_in_push_notifications(): void
     {
         $title = 'แจ้งเตือน 📢';
         $body = 'ข้อความภาษาไทย 🌟';

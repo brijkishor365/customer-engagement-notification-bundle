@@ -1,8 +1,8 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Contract;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Contract;
 
-use CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Provider\WhatsApp\WhatsAppMessage;
 
 interface WhatsAppProviderInterface
 {

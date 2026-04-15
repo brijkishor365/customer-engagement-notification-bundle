@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Resolver;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Resolver;
 
 /**
  * Resolves {placeholder} tokens inside body templates and header values.

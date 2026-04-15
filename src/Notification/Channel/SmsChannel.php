@@ -1,10 +1,10 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Channel;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Channel;
 
-use CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
-use CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
-use CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\NotificationChannelInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Contract\SmsProviderInterface;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Message\NotificationMessage;
 
 /**
  * SMS notification channel implementation.

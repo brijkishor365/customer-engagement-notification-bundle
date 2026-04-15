@@ -9,10 +9,11 @@
  * - Error handling
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Provider\Push;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Provider\Push;
 
-use CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider;
-use CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebasePushProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
@@ -33,9 +34,8 @@ class FirebasePushProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_push_to_single_device(): void
+    public function test_it_sends_push_to_single_device(): void
     {
         $token = 'eA1B2cD3E4fG5H6iJ7K8lM9nO0pQ1R2sT3uV4wX5yZ6aB7cD8eF9gH0iJ1kL2mN3oP4qR5sT6uV7wX8yZ9';
         $title = 'Test Notification';
@@ -83,9 +83,8 @@ class FirebasePushProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_push_to_topic(): void
+    public function test_it_sends_push_to_topic(): void
     {
         $topic = '/topics/flash_sale';
         $title = 'Flash Sale!';
@@ -133,9 +132,8 @@ class FirebasePushProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_firebase_api_error(): void
+    public function test_it_handles_firebase_api_error(): void
     {
         $token = 'eA1B2cD3E4fG5H6iJ7K8lM9nO0pQ1R2sT3uV4wX5yZ6aB7cD8eF9gH0iJ1kL2mN3oP4qR5sT6uV7wX8yZ9';
         $title = 'Test';
@@ -163,9 +161,8 @@ class FirebasePushProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_authentication_failure(): void
+    public function test_it_handles_authentication_failure(): void
     {
         $token = 'eA1B2cD3E4fG5H6iJ7K8lM9nO0pQ1R2sT3uV4wX5yZ6aB7cD8eF9gH0iJ1kL2mN3oP4qR5sT6uV7wX8yZ9';
         $title = 'Test';
@@ -181,9 +178,8 @@ class FirebasePushProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_network_timeout(): void
+    public function test_it_handles_network_timeout(): void
     {
         $token = 'eA1B2cD3E4fG5H6iJ7K8lM9nO0pQ1R2sT3uV4wX5yZ6aB7cD8eF9gH0iJ1kL2mN3oP4qR5sT6uV7wX8yZ9';
         $title = 'Test';
@@ -203,9 +199,8 @@ class FirebasePushProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_sends_unicode_notifications(): void
+    public function test_it_sends_unicode_notifications(): void
     {
         $token = 'eA1B2cD3E4fG5H6iJ7K8lM9nO0pQ1R2sT3uV4wX5yZ6aB7cD8eF9gH0iJ1kL2mN3oP4qR5sT6uV7wX8yZ9';
         $title = 'แจ้งเตือน 📢';
@@ -238,9 +233,8 @@ class FirebasePushProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_empty_context(): void
+    public function test_it_handles_empty_context(): void
     {
         $token = 'eA1B2cD3E4fG5H6iJ7K8lM9nO0pQ1R2sT3uV4wX5yZ6aB7cD8eF9gH0iJ1kL2mN3oP4qR5sT6uV7wX8yZ9';
         $title = 'Test';

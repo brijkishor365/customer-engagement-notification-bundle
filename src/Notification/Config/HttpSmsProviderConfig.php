@@ -1,6 +1,6 @@
 <?php
 
-namespace CustomerEngagementNotificationBundle\Notification\Config;
+namespace Qburst\CustomerEngagementNotificationBundle\Notification\Config;
 
 /**
  * Immutable value object that carries all configuration

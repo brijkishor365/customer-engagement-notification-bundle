@@ -9,9 +9,10 @@
  * - Error handling
  */
 
-namespace CustomerEngagementNotificationBundle\Tests\Unit\Notification\Provider\Push;
+namespace Qburst\CustomerEngagementNotificationBundle\Tests\Unit\Notification\Provider\Push;
 
-use CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider;
+use Qburst\CustomerEngagementNotificationBundle\Notification\Provider\Push\FirebaseCredentialProvider;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -54,9 +55,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_returns_cached_token_when_available(): void
+    public function test_it_returns_cached_token_when_available(): void
     {
         $this->mockCache->expects($this->once())
             ->method('get')
@@ -69,9 +69,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_fetches_new_token_when_cache_miss(): void
+    public function test_it_fetches_new_token_when_cache_miss(): void
     {
         // Mock cache miss
         $mockCacheItem = $this->createMock(CacheItemInterface::class);
@@ -129,9 +128,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_oauth_error_response(): void
+    public function test_it_handles_oauth_error_response(): void
     {
         $mockCacheItem = $this->createMock(CacheItemInterface::class);
         $mockCacheItem->expects($this->once())
@@ -161,9 +159,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_network_timeout(): void
+    public function test_it_handles_network_timeout(): void
     {
         $mockCacheItem = $this->createMock(CacheItemInterface::class);
         $mockCacheItem->expects($this->once())
@@ -185,9 +182,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_invalid_service_account_json(): void
+    public function test_it_handles_invalid_service_account_json(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('FirebaseCredentialProvider: invalid JSON in service account configuration.');
@@ -201,9 +197,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_handles_missing_required_fields_in_service_account(): void
+    public function test_it_handles_missing_required_fields_in_service_account(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('FirebaseCredentialProvider: missing required fields in service account: private_key, client_email, project_id');
@@ -217,9 +212,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_logs_token_fetch_operations(): void
+    public function test_it_logs_token_fetch_operations(): void
     {
         $mockCacheItem = $this->createMock(CacheItemInterface::class);
         $mockCacheItem->expects($this->once())
@@ -262,9 +256,8 @@ class FirebaseCredentialProviderTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function it_logs_errors_during_token_fetch(): void
+    public function test_it_logs_errors_during_token_fetch(): void
     {
         $mockCacheItem = $this->createMock(CacheItemInterface::class);
         $mockCacheItem->expects($this->once())
