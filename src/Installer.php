@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Customer Engagement Platform Bundle
+ * Customer Engagement Notification Bundle
  *
  * @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
  * @license    http://www.pimcore.org/license     GPLv3 and PCL

@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved error messages for better debugging
 
 ### Added
-- Initial release of CEP Bundle (Communication and Engagement Platform)
+- Initial release of CEP Bundle (Communication and Engagement Notification)
 - Multi-channel notification support: SMS, Email, Push (Firebase), LINE, WhatsApp
 - Comprehensive input validation and security hardening
 - PHP 8.1+ compatibility with Symfony 6.0+ and Pimcore 11.0+

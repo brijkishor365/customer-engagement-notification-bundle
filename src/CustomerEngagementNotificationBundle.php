@@ -28,7 +28,7 @@ use Pimcore\HttpKernel\BundleCollection\BundleCollection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * CustomerEngagementNotificationBundle - Communication and Engagement Platform Bundle.
+ * CustomerEngagementNotificationBundle - Communication and Engagement Notification Bundle.
  *
  * A Pimcore bundle that provides multi-channel notification capabilities including:
  * - Email notifications (via Pimcore Email Documents or plain HTML)

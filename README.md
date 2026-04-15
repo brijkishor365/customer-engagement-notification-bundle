@@ -5,7 +5,7 @@
 [![Symfony Version](https://img.shields.io/badge/symfony-6.0+-black.svg)](https://symfony.com/)
 [![Pimcore Version](https://img.shields.io/badge/pimcore-11.0+-red.svg)](https://pimcore.com/)
 
-The **CEP Bundle** (Communication and Engagement Platform) is a comprehensive multi-channel notification system for Pimcore applications. Send notifications via SMS, Email, Push Notifications, LINE messaging, and WhatsApp through a unified API.
+The **CEP Bundle** (Communication and Engagement Notification) is a comprehensive multi-channel notification system for Pimcore applications. Send notifications via SMS, Email, Push Notifications, LINE messaging, and WhatsApp through a unified API.
 
 ## Features
 
@@ -53,7 +53,7 @@ LINE_CHANNEL_ACCESS_TOKEN=your_channel_access_token_here
 
 # Email
 MAILER_FROM_EMAIL=noreply@yourdomain.com
-MAILER_FROM_NAME="CEP Platform"
+MAILER_FROM_NAME="CEP Notification"
 
 # WhatsApp Business API
 WHATSAPP_PHONE_NUMBER_ID=1234567890123456

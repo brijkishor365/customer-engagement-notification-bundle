@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **CEP Bundle** (Communication and Engagement Platform) is a comprehensive multi-channel notification system for Pimcore applications. It provides a unified API for sending notifications across various communication channels including SMS, Email, Push Notifications, LINE messaging, and WhatsApp.
+The **CEP Bundle** (Communication and Engagement Notification) is a comprehensive multi-channel notification system for Pimcore applications. It provides a unified API for sending notifications across various communication channels including SMS, Email, Push Notifications, LINE messaging, and WhatsApp.
 
 ## Key Features
 
